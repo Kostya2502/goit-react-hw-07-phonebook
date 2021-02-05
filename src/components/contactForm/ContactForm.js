@@ -2,14 +2,16 @@ import style from "./ContactForm.module.css";
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import * as contactsActions from '../../redux/actions';
+import { allContacts } from "../../redux/selectors";
+import { addContact } from "../../redux/operations";
 
 export default function ContactForm() {
     const { register, handleSubmit, errors } = useForm();
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
     const dispatch = useDispatch();
-    const myNamesInItem = useSelector(state => state.contacts.items);
+    // const myNamesInItem = useSelector(state => state.contacts.items);
+    const myNamesInItem = useSelector(allContacts);
 
     const reset = () => {
         setName('');
@@ -27,7 +29,7 @@ export default function ContactForm() {
             reset();
             return alert(`${name} is already in contacts!`);
         }
-        dispatch(contactsActions.addContact(name, number));
+        dispatch(addContact(name, number));
         reset();
     };
 

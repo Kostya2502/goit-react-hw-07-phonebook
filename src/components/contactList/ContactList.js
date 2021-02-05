@@ -1,26 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import style from './ContactList.module.css';
 import './ContactList.css';
-import * as contactsActions from '../../redux/actions';
-
-const filterContactsByName = (allContacts, filter) => {
-    const normalizedFilter = filter.toLocaleLowerCase();
-
-    return allContacts.filter(({ name }) =>
-        name.toLocaleLowerCase().includes(normalizedFilter),
-    );
-};
+import { deleteContact, getContacts } from '../../redux/operations';
+import { filterContactsByName } from '../../redux/selectors';
 
 const ContactList = () => {
     const dispatch = useDispatch();
-    const contacts = useSelector(state =>
-        filterContactsByName(state.contacts.items, state.contacts.filter),
-    );
+    const contacts = useSelector(filterContactsByName);
 
-    const ondeleteContact = id => dispatch(contactsActions.deleteContact(id));
+    useEffect(() => {
+        dispatch(getContacts());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const ondeleteContact = id => dispatch(deleteContact(id));
 
     return (
         <TransitionGroup component='ul' >
@@ -46,14 +41,3 @@ const ContactList = () => {
 }
 
 export default ContactList;
-
-ContactList.propTypes = {
-    onDeleteContact: PropTypes.func,
-    contacts: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string,
-            name: PropTypes.string,
-            number: PropTypes.string,
-        }),
-    ),
-};

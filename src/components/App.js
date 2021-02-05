@@ -5,6 +5,7 @@ import Filter from "./filter/Filter";
 import { CSSTransition } from 'react-transition-group';
 import style from './App.module.css';
 import { connect } from "react-redux";
+import { allContacts, contactsFilter } from '../redux/selectors';
 
 const App = ({ value, contacts }) => {
     return (
@@ -21,8 +22,10 @@ const App = ({ value, contacts }) => {
 }
 
 const mapStateToProps = (state) => ({
-    value: state.contacts.filter,
-    contacts: state.contacts.items,
+    value: contactsFilter(state),
+    contacts: allContacts(state),
+    // value: state.contacts.filter,
+    // contacts: state.contacts.items,
 })
 
 export default connect(mapStateToProps)(App);
