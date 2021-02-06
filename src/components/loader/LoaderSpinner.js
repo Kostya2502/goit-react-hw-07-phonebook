@@ -7,8 +7,9 @@ export default class LoaderSpinner extends Component {
             <Loader
                 type="TailSpin"
                 color="#00BFFF"
-                height={150}
-                width={150}
+                height={100}
+                width={100}
+                timeout={3000}
                 style={{ margin: "auto" }}
             />
         );

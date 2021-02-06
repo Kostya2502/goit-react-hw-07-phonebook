@@ -4,10 +4,15 @@ import ContactList from "./contactList/ContactList";
 import Filter from "./filter/Filter";
 import { CSSTransition } from 'react-transition-group';
 import style from './App.module.css';
-import { connect } from "react-redux";
-import { allContacts, contactsFilter } from '../redux/selectors';
+import { useSelector } from "react-redux";
+import { allContacts, contactsFilter, isLoading } from '../redux/selectors';
+import LoaderSpinner from './loader/LoaderSpinner'
 
-const App = ({ value, contacts }) => {
+const App = () => {
+    const value = useSelector(contactsFilter);
+    const contacts = useSelector(allContacts);
+    const loader = useSelector(isLoading);
+
     return (
         <>
             <CSSTransition in={true} classNames={style} appear={true} timeout={1000} unmountOnExit>
@@ -16,16 +21,10 @@ const App = ({ value, contacts }) => {
             <ContactForm />
             <h2>Contacts</h2>
             {(value.length > 0 || contacts.length > 1) && <Filter />}
+            {loader && <LoaderSpinner />}
             <ContactList />
         </>
     );
 }
 
-const mapStateToProps = (state) => ({
-    value: contactsFilter(state),
-    contacts: allContacts(state),
-    // value: state.contacts.filter,
-    // contacts: state.contacts.items,
-})
-
-export default connect(mapStateToProps)(App);
+export default App;

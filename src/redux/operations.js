@@ -47,27 +47,3 @@ export const getContacts = () => async dispatch => {
         dispatch(getContactsError(error));
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export const fetchContacts = () => {
-//     return axios.get('/contacts');
-// };
-
-// export const fetchAddContact = contact => {
-//     return axios.post(`/contacts`, contact);
-// };
-
-// export const fetchDeleteContact = id => {
-//     return axios.delete(`/contacts/${id}`);
-// };
